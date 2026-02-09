@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Para ti ❤️</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+  font-family:'Georgia',serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* Corazones cayendo */
+.fall-heart{
+  position:fixed;
+  top:-20px;
+  color:#ff4d6d;
+  font-size:20px;
+  animation:fall linear infinite;
+  opacity:.8;
+}
+
+@keyframes fall{
+  to{transform:translateY(110vh)}
+}
+
+/* Tarjeta */
+.card{
+  width:92%;
+  max-width:390px;
+  background:#fffaf5;
+  border-radius:25px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
+  position:relative;
+  z-index:2;
+}
+
+.text{
+  font-size:1rem;
+  color:#5a3e36;
+  line-height:1.5;
+}
+
+/* Árbol */
+.tree{
+  position:relative;
+  width:100%;
+  height:220px;
+  margin-top:10px;
+}
+
+.heart {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  transform: rotate(45deg);
+  animation: float 5s infinite ease-in-out;
+}
+
+.heart,
+.heart::before,
+.heart::after {
+  background: pink;
+}
+
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 30%;
+}
+
+.heart::before {
+  top: -7px;
+  left: 0;
+}
+
+.heart::after {
+  left: -7px;
+  top: 0;
+}
+
+@keyframes float{
+  50%{transform:translateY(-10px) rotate(45deg)}
+}
+
+.trunk{
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:18px;
+  height:100px;
+  background:#6d4c41;
+  border-radius:10px;
+}
+
+/* Ositos */
+.bears{
+  font-size:40px;
+  margin-top:-10px;
+}
+
+/* Foto */
+.photo{
+  width:40%;
+
+  border-radius:15px;
+  margin-top:10px;
+ 
+}
+
+/* Contador */
+.counter{
+  margin-top:15px;
+  font-size:.9rem;
+  color:#6a1b9a;
+}
+
+/* Botón música */
+.music-btn{
+  margin-top:10px;
+  background:#ff4d6d;
+  color:white;
+  border:none;
+  padding:8px 16px;
+  border-radius:20px;
+  font-size:.9rem;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Música -->
+<audio id="music" loop>
+  <source src="The_Platters_-_Only_You_And_You_Alone_1955.mp3" type="audio/mpeg">
+</audio>
+
+
+<div class="card">
+
+  <div class="text">
+    Para la persona que amo ❤️<br>
+    Si pudiera elegir un lugar seguro,<br>
+    sería a tu lado.<br>
+    Cuanto más tiempo estoy contigo
+  </div>
+
+ <img src="2.jpeg" class="photo" id="photo">
+
+
+  <div class="tree" id="tree">
+    <div class="trunk"></div>
+  </div>
+
+
+  <div class="counter" id="contador"></div>
+
+  <button class="music-btn" onclick="playMusic()">🎵 Reproducir música</button>
+
+</div>
+
+<script>
+/* Corazones árbol */
+const tree=document.getElementById("tree");
+for (let i = 0; i < 125; i++) {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.style.left = Math.random() * 90 + "%";
+  heart.style.top = Math.random() * 55 + "%";
+  heart.style.background = `hsl(${Math.random()*360},70%,75%)`;
+  tree.appendChild(heart);
+}
+
+/* Corazones cayendo */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="fall-heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=3+Math.random()*3+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},300);
+
+/* Contador desde 30 de noviembre */
+const inicio=new Date("2025-11-30T00:00:00");
+
+function contador(){
+  const ahora=new Date();
+  let diff=ahora-inicio;
+  let s=Math.floor(diff/1000);
+  let m=Math.floor(s/60);
+  let h=Math.floor(m/60);
+  let d=Math.floor(h/24);
+  h%=24; m%=60; s%=60;
+
+  document.getElementById("contador").innerHTML=
+  `Nuestros caminos se cruzaron hace…<br>
+   <b>${d} días, ${h} h, ${m} min y ${s} s</b>`;
+}
+setInterval(contador,1000);
+contador();
+
+/* Música */
+function playMusic(){
+  document.getElementById("music").play();
+}
+</script>
+
+</body>
+</html>
