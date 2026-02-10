@@ -23,19 +23,17 @@ body{
 .fall-heart{
   position:fixed;
   top:-20px;
-  color:#ff4d6d;
   font-size:20px;
   animation:fall linear infinite;
   opacity:.8;
 }
-
 @keyframes fall{
   to{transform:translateY(110vh)}
 }
 
 /* Tarjeta */
 .card{
-  width:92%;
+  width:85%;
   max-width:390px;
   background:#fffaf5;
   border-radius:25px;
@@ -52,60 +50,18 @@ body{
   line-height:1.5;
 }
 
-/* Árbol */
-.tree{
-  position:relative;
-  width:100%;
-  height:220px;
-  margin-top:10px;
-}
-
-.heart{
-  position:absolute;
-  width:14px;
-  height:14px;
-  transform:rotate(45deg);
-  animation:float 5s infinite ease-in-out;
-}
-
-.heart,
-.heart::before,
-.heart::after{
-  background:pink;
-}
-
-.heart::before,
-.heart::after{
-  content:'';
-  position:absolute;
-  width:14px;
-  height:14px;
-  border-radius:30%;
-}
-
-.heart::before{top:-7px;left:0}
-.heart::after{left:-7px;top:0}
-
-@keyframes float{
-  50%{transform:translateY(-10px) rotate(45deg)}
-}
-
-.trunk{
-  position:absolute;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:18px;
-  height:100px;
-  background:#6d4c41;
-  border-radius:10px;
-}
-
 /* Foto */
 .photo{
   width:65%;
   border-radius:15px;
   margin-top:10px;
+}
+
+/* Texto tocar pantalla */
+.tap{
+  font-size:.85rem;
+  color:#aa4a6d;
+  margin-top:8px;
 }
 
 /* Contador */
@@ -115,11 +71,29 @@ body{
   color:#6a1b9a;
 }
 
-/* Texto tocar pantalla */
-.tap{
-  font-size:.85rem;
-  color:#aa4a6d;
-  margin-top:8px;
+/* Árbol SVG */
+.tree-svg{
+  width:100%;
+  max-width:300px;
+  margin:10px auto;
+}
+
+.tree-svg svg{
+  width:100%;
+  height:auto;
+}
+
+.hearts text{
+  font-size:22px;
+  animation: floatHeart 4s ease-in-out infinite;
+}
+
+.hearts text:nth-child(odd){
+  animation-delay:1s;
+}
+
+@keyframes floatHeart{
+  50%{transform:translateY(-6px)}
 }
 </style>
 </head>
@@ -142,10 +116,41 @@ body{
 
   <img src="2.jpeg" class="photo">
 
-  <p class="tap">💖 Toca la pantalla para escuchar nuestra canción</p>
+  <p class="tap">💖 Toca nuestra foto para escuchar nuestra canción💖</p>
 
-  <div class="tree" id="tree">
-    <div class="trunk"></div>
+  <!-- 🌳 Árbol de corazones -->
+  <div class="tree-svg">
+    <svg viewBox="0 0 300 300">
+      <!-- Tronco -->
+      <path d="M145 300 C140 240,140 200,150 160 C160 200,160 240,155 300"
+            fill="#6d4c41"/>
+
+      <!-- Ramas -->
+      <path d="M150 160 C110 120,70 110,40 80"
+            stroke="#6d4c41" stroke-width="6" fill="none"/>
+      <path d="M150 160 C190 120,230 110,260 80"
+            stroke="#6d4c41" stroke-width="6" fill="none"/>
+      <path d="M150 140 C120 100,100 70,80 50"
+            stroke="#6d4c41" stroke-width="4" fill="none"/>
+      <path d="M150 140 C180 100,200 70,220 50"
+            stroke="#6d4c41" stroke-width="4" fill="none"/>
+
+      <!-- Corazones -->
+      <g class="hearts">
+        <text x="60" y="90">❤️</text>
+        <text x="90" y="60">💛</text>
+        <text x="120" y="80">💙</text>
+        <text x="150" y="50">💖</text>
+        <text x="180" y="80">💜</text>
+        <text x="210" y="60">💚</text>
+        <text x="240" y="90">🧡</text>
+        <text x="70" y="120">❤️</text>
+        <text x="110" y="110">💛</text>
+        <text x="150" y="100">💖</text>
+        <text x="190" y="110">💜</text>
+        <text x="230" y="120">💙</text>
+      </g>
+    </svg>
   </div>
 
   <div class="counter" id="contador"></div>
@@ -153,17 +158,6 @@ body{
 </div>
 
 <script>
-// Corazones árbol
-const tree=document.getElementById("tree");
-for(let i=0;i<120;i++){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.style.left=Math.random()*90+"%";
-  h.style.top=Math.random()*55+"%";
-  h.style.background=`hsl(${Math.random()*360},70%,75%)`;
-  tree.appendChild(h);
-}
-
 // Corazones cayendo
 setInterval(()=>{
   const h=document.createElement("div");
@@ -185,15 +179,14 @@ function contador(){
   let h=Math.floor(m/60);
   let d=Math.floor(h/24);
   h%=24; m%=60; s%=60;
-
   document.getElementById("contador").innerHTML=
   `Nuestros caminos se cruzaron hace…<br>
-  <b>${d} días, ${h} h, ${m} min y ${s} s</b>`;
+   <b>${d} días, ${h} h, ${m} min y ${s} s</b>`;
 }
 setInterval(contador,1000);
 contador();
 
-// Activar sonido al primer toque
+// Activar música al primer toque
 const music=document.getElementById("music");
 document.addEventListener("click",()=>{
   music.muted=false;
