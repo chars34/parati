@@ -54,6 +54,7 @@ body {
   }
 }
 
+/* Texto */
 p {
   margin-top: 10px;
   font-size: .85rem;
@@ -64,15 +65,33 @@ p {
 
 <body>
 
+<!-- 💗 Corazón -->
 <div id="mainHeart">💗</div>
 
-<p>💖 Toca el corazón</p>
+<p>💖 Toca la pantalla para escuchar nuestra canción</p>
+
+<!-- 🎵 Música -->
+<audio id="music" loop>
+  <!-- CAMBIA AQUÍ TU CANCIÓN -->
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 const mainHeart = document.getElementById("mainHeart");
+const music = document.getElementById("music");
+let musicStarted = false;
 
+// Al tocar el corazón
 mainHeart.addEventListener("click", (e) => {
-  for (let i = 0; i < 10; i++) {
+
+  // 🎵 Reproducir música (solo la primera vez)
+  if (!musicStarted) {
+    music.play();
+    musicStarted = true;
+  }
+
+  // 💖 Crear corazones flotantes
+  for (let i = 0; i < 5; i++) {
     createHeart(e.clientX, e.clientY);
   }
 });
