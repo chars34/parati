@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Para ti ❤️</title>
 
 <style>
@@ -60,38 +60,31 @@ body{
   margin-top:10px;
 }
 
-.heart {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  transform: rotate(45deg);
-  animation: float 5s infinite ease-in-out;
+.heart{
+  position:absolute;
+  width:14px;
+  height:14px;
+  transform:rotate(45deg);
+  animation:float 5s infinite ease-in-out;
 }
 
 .heart,
 .heart::before,
-.heart::after {
-  background: pink;
+.heart::after{
+  background:pink;
 }
 
 .heart::before,
-.heart::after {
-  content: '';
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-radius: 30%;
+.heart::after{
+  content:'';
+  position:absolute;
+  width:14px;
+  height:14px;
+  border-radius:30%;
 }
 
-.heart::before {
-  top: -7px;
-  left: 0;
-}
-
-.heart::after {
-  left: -7px;
-  top: 0;
-}
+.heart::before{top:-7px;left:0}
+.heart::after{left:-7px;top:0}
 
 @keyframes float{
   50%{transform:translateY(-10px) rotate(45deg)}
@@ -108,19 +101,11 @@ body{
   border-radius:10px;
 }
 
-/* Ositos */
-.bears{
-  font-size:40px;
-  margin-top:-10px;
-}
-
 /* Foto */
 .photo{
-  width:40%;
-
+  width:65%;
   border-radius:15px;
   margin-top:10px;
- 
 }
 
 /* Contador */
@@ -130,15 +115,11 @@ body{
   color:#6a1b9a;
 }
 
-/* Botón música */
-.music-btn{
-  margin-top:10px;
-  background:#ff4d6d;
-  color:white;
-  border:none;
-  padding:8px 16px;
-  border-radius:20px;
-  font-size:.9rem;
+/* Texto tocar pantalla */
+.tap{
+  font-size:.85rem;
+  color:#aa4a6d;
+  margin-top:8px;
 }
 </style>
 </head>
@@ -146,10 +127,9 @@ body{
 <body>
 
 <!-- Música -->
-<audio id="music" loop>
+<audio id="music" loop autoplay muted>
   <source src="The_Platters_-_Only_You_And_You_Alone_1955.mp3" type="audio/mpeg">
 </audio>
-
 
 <div class="card">
 
@@ -160,33 +140,31 @@ body{
     Cuanto más tiempo estoy contigo
   </div>
 
- <img src="2.jpeg" class="photo" id="photo">
+  <img src="2.jpeg" class="photo">
 
+  <p class="tap">💖 Toca la pantalla para escuchar nuestra canción</p>
 
   <div class="tree" id="tree">
     <div class="trunk"></div>
   </div>
 
-
   <div class="counter" id="contador"></div>
-
-  <button class="music-btn" onclick="playMusic()">🎵 Reproducir música</button>
 
 </div>
 
 <script>
-/* Corazones árbol */
+// Corazones árbol
 const tree=document.getElementById("tree");
-for (let i = 0; i < 125; i++) {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.style.left = Math.random() * 90 + "%";
-  heart.style.top = Math.random() * 55 + "%";
-  heart.style.background = `hsl(${Math.random()*360},70%,75%)`;
-  tree.appendChild(heart);
+for(let i=0;i<120;i++){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.style.left=Math.random()*90+"%";
+  h.style.top=Math.random()*55+"%";
+  h.style.background=`hsl(${Math.random()*360},70%,75%)`;
+  tree.appendChild(h);
 }
 
-/* Corazones cayendo */
+// Corazones cayendo
 setInterval(()=>{
   const h=document.createElement("div");
   h.className="fall-heart";
@@ -197,9 +175,8 @@ setInterval(()=>{
   setTimeout(()=>h.remove(),6000);
 },300);
 
-/* Contador desde 30 de noviembre */
+// Contador
 const inicio=new Date("2025-11-30T00:00:00");
-
 function contador(){
   const ahora=new Date();
   let diff=ahora-inicio;
@@ -211,15 +188,17 @@ function contador(){
 
   document.getElementById("contador").innerHTML=
   `Nuestros caminos se cruzaron hace…<br>
-   <b>${d} días, ${h} h, ${m} min y ${s} s</b>`;
+  <b>${d} días, ${h} h, ${m} min y ${s} s</b>`;
 }
 setInterval(contador,1000);
 contador();
 
-/* Música */
-function playMusic(){
-  document.getElementById("music").play();
-}
+// Activar sonido al primer toque
+const music=document.getElementById("music");
+document.addEventListener("click",()=>{
+  music.muted=false;
+  music.play();
+},{once:true});
 </script>
 
 </body>
