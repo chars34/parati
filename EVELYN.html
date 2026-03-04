@@ -1,204 +1,688 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Para ti ❤️</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Para mi Amor Eterno ❤️🐶</title>
 
-<style>
-*{box-sizing:border-box}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;700&family=Pacifico&display=swap" rel="stylesheet">
 
-body{
-  margin:0;
-  min-height:100vh;
-  background:linear-gradient(135deg,#ffdde1,#ee9ca7);
-  font-family:'Georgia',serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ffb3c1;
+            --accent: #ff0054;
+            --glass: rgba(255, 255, 255, 0.25);
+            --gold: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+        --bg-day: radial-gradient(circle at center, #fff0f3 0%, #ffccd5 50%, #ffb3c1 100%);
+--bg-night: radial-gradient(circle at center, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+--text-day: #594141;
+--text-night: #f1f1f1;
+        }
+        
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+          background: var(--bg-day);
+transition: background 1s ease, color 1s ease;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            perspective: 2000px;
+        }
+
+        /* Canvas para partículas de fondo */
+        #particle-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Pantalla de inicio de lujo */
+        #start-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: all 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+/* ===== SOBRE ROMÁNTICO PRO ===== */
+
+.envelope-wrapper{
+    margin-top:30px;
+    text-align:center;
 }
 
-/* Corazones cayendo */
-.fall-heart{
-  position:fixed;
-  top:-20px;
-  color:#ff4d6d;
-  font-size:20px;
-  animation:fall linear infinite;
-  opacity:.8;
+.envelope{
+    width:260px;
+    height:160px;
+    margin:0 auto;
+    position:relative;
+    perspective:1000px;
 }
 
-@keyframes fall{
-  to{transform:translateY(110vh)}
+.envelope-flap{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(145deg,#ff758f,#ff4d6d);
+    clip-path:polygon(0 0,100% 0,50% 50%);
+    transform-origin:top;
+    transition:transform 0.8s ease;
+    border-radius:10px 10px 0 0;
+    z-index:3;
+    backface-visibility: hidden;
 }
 
-/* Tarjeta */
-.card{
-  width:92%;
-  max-width:390px;
-  background:#fffaf5;
-  border-radius:25px;
-  padding:20px;
-  text-align:center;
-  box-shadow:0 20px 40px rgba(0,0,0,.25);
-  position:relative;
-  z-index:2;
+.letter{
+    position:absolute;
+    width:100%;
+    height:100%;
+   background:linear-gradient(to bottom,#fff,#ffe5ec);
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    transform:translateY(40px);
+    opacity:0;
+    transition:all 0.8s ease;
+    z-index:1;
+    overflow:auto;
 }
 
-.text{
-  font-size:1rem;
-  color:#5a3e36;
-  line-height:1.5;
+.letter h3{
+    font-family:'Dancing Script',cursive;
+    color:#c9184a;
+    margin-bottom:10px;
+    font-size:1.4rem;
 }
 
-/* Árbol */
-.tree{
-  position:relative;
-  width:100%;
-  height:220px;
-  margin-top:10px;
+.letter p{
+    font-size:0.9rem;
+    color:#444;
+    line-height:1.5;
 }
 
-.heart{
-  position:absolute;
-  width:14px;
-  height:14px;
-  transform:rotate(45deg);
-  animation:float 5s infinite ease-in-out;
+.envelope.open .envelope-flap{
+    transform:rotateX(180deg);
 }
 
-.heart,
-.heart::before,
-.heart::after{
-  background:pink;
+.envelope.open .letter{
+    transform:translateY(-20px);
+    opacity:1;
 }
 
-.heart::before,
-.heart::after{
-  content:'';
-  position:absolute;
-  width:14px;
-  height:14px;
-  border-radius:30%;
+.letter-btn{
+    margin-top:15px;
+    background:var(--primary);
+    border:none;
+    padding:10px 20px;
+    border-radius:20px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 8px 20px rgba(255,77,109,0.3);
 }
 
-.heart::before{top:-7px;left:0}
-.heart::after{left:-7px;top:0}
+.letter-btn:hover{
+    background:var(--accent);
+    transform:scale(1.05);
+}
+        .heart-loader {
+            width: 100px;
+            height: 100px;
+            background: var(--primary);
+            position: relative;
+            transform: rotate(45deg);
+            animation: heartBeat 1.2s infinite;
+            box-shadow: 0 0 40px rgba(255, 77, 109, 0.5);
+        }
+        .heart-loader::before, .heart-loader::after {
+            content: ''; width: 100px; height: 100px;
+            background: var(--primary); border-radius: 50%;
+            position: absolute;
+        }
+        .heart-loader::before { left: -50px; }
+        .heart-loader::after { top: -50px; }
 
-@keyframes float{
-  50%{transform:translateY(-10px) rotate(45deg)}
+        @keyframes heartBeat {
+            0% { transform: rotate(45deg) scale(0.8); }
+            5% { transform: rotate(45deg) scale(0.9); }
+            10% { transform: rotate(45deg) scale(0.8); }
+            15% { transform: rotate(45deg) scale(1); }
+            50% { transform: rotate(45deg) scale(0.8); }
+            100% { transform: rotate(45deg) scale(0.8); }
+        }
+
+        .start-text {
+            margin-top: 80px;
+            font-family: 'Pacifico', cursive;
+            font-size: 1.8rem;
+            color: var(--primary);
+            opacity: 0.8;
+            letter-spacing: 2px;
+        }
+
+        /* Tarjeta Ultra-Premium */
+        .card-container {
+            width: 90%;
+            max-width: 440px;
+            z-index: 100;
+            opacity: 0;
+            transform: scale(0.8) translateY(100px) rotateX(-20deg);
+            transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .card-container.active {
+            opacity: 1;
+            transform: scale(1) translateY(0) rotateX(0);
+            pointer-events: all;
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 40px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.1), 
+                        inset 0 0 20px rgba(255,255,255,0.3);
+            transform-style: preserve-3d;
+        }
+
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            background: linear-gradient(to right, #ff4d6d, #c9184a, #ff758f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.05));
+        }
+
+        /* Galería de fotos cilíndrica */
+        .gallery-3d {
+            width: 200px;
+            height: 200px;
+            margin: 30px auto;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateGallery 20s infinite linear;
+        }
+        .open-animation {
+    animation: openCard 0.8s ease forwards;
 }
 
-.trunk{
-  position:absolute;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:18px;
-  height:100px;
-  background:#6d4c41;
-  border-radius:10px;
+@keyframes openCard {
+    from { transform: rotateX(-90deg); }
+    to { transform: rotateX(0deg); }
 }
 
-/* Foto */
-.photo{
-  width:65%;
-  border-radius:15px;
-  margin-top:10px;
+        .gallery-item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 25px;
+            border: 5px solid #fff;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backface-visibility: hidden;
+        }
+
+        /* Posicionamiento en círculo */
+        .gallery-item:nth-child(1) { transform: rotateY(0deg) translateZ(120px); }
+        .gallery-item:nth-child(2) { transform: rotateY(120deg) translateZ(120px); }
+        .gallery-item:nth-child(3) { transform: rotateY(240deg) translateZ(120px); }
+
+        @keyframes rotateGallery {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        .text-content {
+            font-size: 1.1rem;
+            color: #594141;
+            line-height: 1.6;
+            font-weight: 500;
+            margin: 20px 0;
+            padding: 0 10px;
+        }
+
+        /* Árbol Estilizado */
+        .magic-tree {
+            height: 180px;
+            width: 100%;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .trunk {
+            position: absolute;
+            bottom: 0; left: 50%;
+            width: 16px; height: 90px;
+            background: linear-gradient(to top, #5d4037, #8d6e63);
+            border-radius: 8px 8px 2px 2px;
+            transform: translateX(-50%);
+        }
+
+        /* Contador con Neumorfismo */
+        .counter-wrap {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.05), 
+                        -8px -8px 16px rgba(255,255,255,0.8);
+            margin: 20px 0;
+        }
+
+        .counter-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #c9184a;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .counter-digits {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            color: #4a4e69;
+            font-weight: 800;
+        }
+
+        /* Controles de audio elegantes */
+        .audio-player {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .btn-circle {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+            transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .btn-circle:hover { transform: scale(1.1); background: var(--accent); }
+
+        .visualizer {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 30px;
+        }
+
+        .bar {
+            width: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+            animation: barHeight 0.8s ease-in-out infinite alternate;
+        }
+
+        @keyframes barHeight {
+            0% { height: 5px; opacity: 0.3; }
+            100% { height: 25px; opacity: 1; }
+        }
+
+        /* Mascotas animadas */
+        .dog-float {
+            position: fixed;
+            z-index: 5;
+            font-size: 3rem;
+            pointer-events: none;
+            transition: transform 0.1s linear;
+        }
+
+        /* Lluvia de partículas (corazones/huellas) */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fallAnimation linear forwards;
+        }
+
+        @keyframes fallAnimation {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+        @media (max-width: 600px) {
+
+.title {
+    font-size: 2.5rem;
 }
 
-/* Contador */
-.counter{
-  margin-top:15px;
-  font-size:.9rem;
-  color:#6a1b9a;
+.gallery-3d {
+    width:150px;
+    height:150px;
 }
 
-/* Texto tocar pantalla */
-.tap{
-  font-size:.85rem;
-  color:#aa4a6d;
-  margin-top:8px;
+.text-content {
+    font-size:0.9rem;
 }
-</style>
+
+.btn-circle {
+    width:50px;
+    height:50px;
+}
+
+.dog-float {
+    font-size:2rem;
+}
+body.night {
+    background: var(--bg-night);
+    color: var(--text-night);
+}
+
+body.night .text-content,
+body.night .counter-digits,
+body.night .letter p {
+    color: var(--text-night);
+}
+}
+    </style>
 </head>
-
 <body>
 
-<!-- Música -->
-<audio id="music" loop autoplay muted>
-  <source src="The_Platters_-_Only_You_And_You_Alone_1955.mp3" type="audio/mpeg">
+<canvas id="particle-canvas"></canvas>
+
+<!-- Pantalla de Bienvenida -->
+<div id="start-screen">
+    <div class="heart-loader"></div>
+    <div class="start-text">Para ti, con amor...</div>
+    <div style="margin-top: 20px; color: #888; font-size: 0.9rem;">(Pulsa en cualquier lugar para entrar)</div>
+</div>
+
+<audio id="bg-music" loop>
+    <source src="The_Platters_-_Only_You_And_You_Alone_1955.mp3" type="audio/mpeg">
 </audio>
 
-<div class="card">
+<div class="card-container" id="card-container">
+    <div class="main-card" id="tilt-card">
+        
+        <h1 class="title">Te Amo ❤️</h1>
 
-  <div class="text">
-    Para la persona que amo ❤️<br>
-    Si pudiera elegir un lugar seguro,<br>
-    sería a tu lado.<br>
-    Cuanto más tiempo estoy contigo
-  </div>
+        <div class="gallery-3d">
+            <!-- Pon aquí tus fotos -->
+            <img src="2.jpeg" onerror="this.src='https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400'" class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=400" class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e?w=400" class="gallery-item">
+        </div>
 
-  <img src="2.jpeg" class="photo">
+        <div class="text-content">
+            En un mundo lleno de gente, mi lugar seguro<br>
+            siempre será a tu lado. Gracias por ser<br>
+            mi cómplice, mi calma y mi alegría. 🐾✨
+        </div>
 
-  <p class="tap">💖 Toca la pantalla para escuchar nuestra canción</p>
+        <div class="magic-tree" id="magic-tree">
+            <div class="trunk"></div>
+        </div>
 
-  <div class="tree" id="tree">
-    <div class="trunk"></div>
-  </div>
+        <div class="counter-wrap">
+            <div class="counter-title">Nuestra Eternidad</div>
+            <div class="counter-digits" id="timer">Calculando segundos de felicidad...</div>
+        </div>
+<!-- 💌 SOBRE ROMÁNTICO -->
+<div class="envelope-wrapper">
+    
+    <div class="envelope" id="envelope">
+        <div class="envelope-flap"></div>
+        <div class="letter">
+            <h3>Para el amor de mi vida 💖</h3>
+            <p>
+                Mi persona favorita…<br><br>
+                Gracias por cada abrazo, cada risa,
+                cada mirada que me hace sentir en casa.
+                <br><br>
+                Si el mundo se pone difícil,
+                prometo ser tu refugio.
+                <br><br>
+                Te amo más de lo que las palabras
+                pueden explicar. 🐾✨
+            </p>
+        </div>
+    </div>
 
-  <div class="counter" id="contador"></div>
+    <button id="open-letter-btn" class="letter-btn">
+        Abrir mi carta 💌
+    </button>
 
+</div>
+        <div class="audio-player">
+            <button class="btn-circle" id="toggle-music">🐾</button>
+            <div class="visualizer" id="visualizer">
+                <!-- Barras generadas por JS -->
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-// Corazones árbol
-const tree=document.getElementById("tree");
-for(let i=0;i<120;i++){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.style.left=Math.random()*90+"%";
-  h.style.top=Math.random()*55+"%";
-  h.style.background=`hsl(${Math.random()*360},70%,75%)`;
-  tree.appendChild(h);
+    const startScreen = document.getElementById('start-screen');
+    const cardContainer = document.getElementById('card-container');
+    const tiltCard = document.getElementById('tilt-card');
+    const music = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('toggle-music');
+    const visualizer = document.getElementById('visualizer');
+    
+    let isMusicPlaying = false;
+
+    // --- SISTEMA DE PARTÍCULAS DE FONDO (CANVAS) ---
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function initCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    class Star {
+        constructor() {
+            this.reset();
+        }
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2;
+            this.speed = 0.2 + Math.random() * 0.5;
+            this.opacity = Math.random();
+        }
+        update() {
+            this.y -= this.speed;
+            if (this.y < -10) this.reset();
+        }
+        draw() {
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    function animateCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animateCanvas);
+    }
+
+    // --- ENTRADA CINEMÁTICA ---
+    window.addEventListener('click', () => {
+        if (startScreen.style.display === 'none') return;
+        
+        startScreen.style.opacity = '0';
+        startScreen.style.transform = 'scale(1.2)';
+        
+        music.play();
+        isMusicPlaying = true;
+        
+        setTimeout(() => {
+            startScreen.style.display = 'none';
+            cardContainer.classList.add('active');
+            tiltCard.classList.add("open-animation");
+
+            initMagic();
+        }, 1000);
+    }, { once: true });
+
+    function initMagic() {
+        initCanvas();
+        for(let i=0; i<100; i++) particles.push(new Star());
+        animateCanvas();
+        createTreeLeaves();
+        createVisualizer();
+        startRaining();
+        initDogs();
+    }
+
+    // --- EFECTO TILT 3D ---
+    document.addEventListener('mousemove', (e) => {
+        const x = (window.innerWidth / 2 - e.pageX) / 30;
+        const y = (window.innerHeight / 2 - e.pageY) / 30;
+        tiltCard.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
+    });
+
+    // --- GENERAR VISUALIZADOR ---
+    function createVisualizer() {
+        for(let i=0; i<12; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            bar.style.animationDelay = `${i * 0.1}s`;
+            visualizer.appendChild(bar);
+        }
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        if (isMusicPlaying) {
+            music.pause();
+            visualizer.style.opacity = '0.2';
+            toggleBtn.innerHTML = '▶️';
+        } else {
+            music.play();
+            visualizer.style.opacity = '1';
+            toggleBtn.innerHTML = '🐾';
+        }
+        isMusicPlaying = !isMusicPlaying;
+    });
+// 💌 ABRIR SOBRE
+document.getElementById("open-letter-btn").addEventListener("click",()=>{
+    const envelope=document.getElementById("envelope");
+    envelope.classList.toggle("open");
+});
+    // --- ÁRBOL DE CORAZONES ---
+    function createTreeLeaves() {
+        const tree = document.getElementById('magic-tree');
+        const colors = ['#ff4d6d', '#ff758f', '#ffb3c1', '#ffffff'];
+        for(let i=0; i<80; i++) {
+            const leaf = document.createElement('div');
+            leaf.style.position = 'absolute';
+            leaf.style.width = '12px';
+            leaf.style.height = '12px';
+            leaf.style.background = colors[Math.floor(Math.random() * colors.length)];
+            leaf.style.borderRadius = '50% 0 50% 50%';
+            leaf.style.left = 20 + Math.random() * 60 + '%';
+            leaf.style.bottom = 40 + Math.random() * 50 + '%';
+            leaf.style.transform = `rotate(${Math.random() * 360}deg)`;
+            leaf.style.opacity = '0.8';
+            leaf.style.boxShadow = '0 0 10px rgba(255,255,255,0.5)';
+            tree.appendChild(leaf);
+        }
+    }
+
+    // --- LLUVIA DE AMOR ---
+    function startRaining() {
+        const icons = ['❤️', '🐾', '🦴', '✨', '💖'];
+        setInterval(() => {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = '-5vh';
+            p.style.fontSize = 15 + Math.random() * 20 + 'px';
+            p.style.animationDuration = 3 + Math.random() * 5 + 's';
+            p.style.opacity = 0.5 + Math.random() * 0.5;
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 6000);
+        }, 700);
+    }
+
+    // --- PERRITOS ANIMADOS ---
+    function initDogs() {
+        const dogs = ['🐕', '🐩', '🐶', '🐕‍🦺'];
+        dogs.forEach((emoji, index) => {
+            const dog = document.createElement('div');
+            dog.className = 'dog-float';
+            dog.innerHTML = emoji;
+            dog.style.bottom = (5 + index * 10) + 'vh';
+            document.body.appendChild(dog);
+            
+            let pos = -100;
+            let speed = 1 + Math.random() * 2;
+            
+            function move() {
+                pos += speed;
+                if (pos > window.innerWidth + 100) pos = -100;
+                dog.style.transform = `translateX(${pos}px) translateY(${Math.sin(pos/20) * 10}px)`;
+                requestAnimationFrame(move);
+            }
+            move();
+        });
+    }
+
+    // --- CONTADOR ---
+    const startDate = new Date("2023-11-30T00:00:00");
+    function updateTimer() {
+        const now = new Date();
+        const diff = now - startDate;
+        
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / (1000 * 60)) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+
+        document.getElementById('timer').innerHTML = 
+            `${d}d : ${h}h : ${m}m : ${s}s`;
+    }
+   function autoNightMode() {
+    const hour = new Date().getHours();
+    const isNight = hour >= 19 || hour < 6;
+
+    if (isNight) {
+        document.body.classList.add("night");
+    } else {
+        document.body.classList.remove("night");
+    }
 }
+autoNightMode();
+    setInterval(updateTimer, 1000);
+    updateTimer();
 
-// Corazones cayendo
-setInterval(()=>{
-  const h=document.createElement("div");
-  h.className="fall-heart";
-  h.innerHTML="❤️";
-  h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=3+Math.random()*3+"s";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),6000);
-},300);
-
-// Contador
-const inicio=new Date("2025-11-30T00:00:00");
-function contador(){
-  const ahora=new Date();
-  let diff=ahora-inicio;
-  let s=Math.floor(diff/1000);
-  let m=Math.floor(s/60);
-  let h=Math.floor(m/60);
-  let d=Math.floor(h/24);
-  h%=24; m%=60; s%=60;
-
-  document.getElementById("contador").innerHTML=
-  `Nuestros caminos se cruzaron hace…<br>
-  <b>${d} días, ${h} h, ${m} min y ${s} s</b>`;
-}
-setInterval(contador,1000);
-contador();
-
-// Activar sonido al primer toque
-const music=document.getElementById("music");
-document.addEventListener("click",()=>{
-  music.muted=false;
-  music.play();
-},{once:true});
+    window.addEventListener('resize', initCanvas);
 </script>
 
 </body>
