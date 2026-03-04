@@ -573,12 +573,14 @@ es justo donde estás tú🥹❤️
         initDogs();
     }
 
-    // --- EFECTO TILT 3D ---
+    // --- EFECTO TILT SOLO EN ESCRITORIO ---
+if (window.innerWidth > 768) {
     document.addEventListener('mousemove', (e) => {
         const x = (window.innerWidth / 2 - e.pageX) / 30;
         const y = (window.innerHeight / 2 - e.pageY) / 30;
         tiltCard.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
     });
+}
 
     // --- GENERAR VISUALIZADOR ---
     function createVisualizer() {
