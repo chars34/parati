@@ -33,10 +33,17 @@ transition: background 1s ease, color 1s ease;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
+overflow-y: auto;
             position: relative;
             perspective: 2000px;
         }
+        @media (max-width: 600px) {
+    body {
+        align-items: flex-start;
+        padding-top: 40px;
+    }
+}
 
         /* Canvas para partículas de fondo */
         #particle-canvas {
@@ -655,7 +662,7 @@ document.getElementById("open-letter-btn").addEventListener("click",()=>{
     }
 
     // --- CONTADOR ---
-    const startDate = new Date("2023-11-30T00:00:00");
+    const startDate = new Date("2025-11-30T00:00:00");
     function updateTimer() {
         const now = new Date();
         const diff = now - startDate;
