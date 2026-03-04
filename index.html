@@ -92,7 +92,11 @@ overflow-y: auto;
     z-index:3;
     backface-visibility: hidden;
 }
-
+.letter {
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+}
 .letter{
     position:absolute;
     width:100%;
@@ -466,19 +470,52 @@ es justo donde estás tú🥹❤️
     <div class="envelope" id="envelope">
         <div class="envelope-flap"></div>
         <div class="letter">
-            <h3>Para el amor de mi vida 💖</h3>
-            <p>
-                Mi persona favorita…<br><br>
-                Gracias por cada abrazo, cada risa,
-                cada mirada que me hace sentir en casa.
-                <br><br>
-                Si el mundo se pone difícil,
-                prometo ser tu refugio.
-                <br><br>
-                Te amo más de lo que las palabras
-                pueden explicar. 🐾✨
-            </p>
-        </div>
+    <h2 style="margin-bottom:10px;">💌 Solo Tú</h2>
+
+    <p>Mi amor…</p>
+
+    <p>
+    Si estás leyendo esto, es porque decidiste abrir un pedacito de mi corazón.
+    </p>
+
+    <p>
+    Solo tú tienes la forma exacta de hacer que mi mundo se sienta en paz.
+    Solo tú conviertes un día normal en un recuerdo inolvidable.
+    </p>
+
+    <p>
+    Desde que llegaste, todo cambió…
+    Los colores son más intensos,
+    las risas más sinceras,
+    y los abrazos… más necesarios.
+    </p>
+
+    <p>
+    Cuando tomo tu mano, siento que el universo se acomoda.
+    Cuando me miras, el ruido desaparece.
+    Y cuando sonríes… entiendo por qué valió la pena todo lo que viví antes de ti.
+    </p>
+
+    <p>
+    No eres coincidencia.
+    Eres destino.
+    </p>
+
+    <p>
+    Eres mi calma cuando todo es caos,
+    mi refugio cuando tengo miedo,
+    y mi alegría constante incluso en silencio.
+    </p>
+
+    <p>
+    Si el amor tuviera nombre,
+    llevaría el tuyo.
+    </p>
+
+    <p style="margin-top:15px; font-weight:bold;">
+    Solo tú. Siempre tú. 💖
+    </p>
+</div>
     </div>
 
     <button id="open-letter-btn" class="letter-btn">
@@ -605,9 +642,41 @@ if (window.innerWidth > 768) {
         isMusicPlaying = !isMusicPlaying;
     });
 // 💌 ABRIR SOBRE
-document.getElementById("open-letter-btn").addEventListener("click",()=>{
-    const envelope=document.getElementById("envelope");
-    envelope.classList.toggle("open");
+document.addEventListener("DOMContentLoaded", function() {
+
+    const btn = document.getElementById("open-letter-btn");
+    const envelope = document.getElementById("envelope");
+    const music = document.getElementById("bg-music");
+
+    let musicStarted = false;
+
+    if (btn && envelope) {
+
+        btn.addEventListener("click", function() {
+
+            envelope.classList.toggle("open");
+
+            // 🎵 SOLO iniciar música la primera vez
+            if (!musicStarted) {
+
+                music.volume = 0; // empieza en silencio
+                music.play();
+
+                let volume = 0;
+                const fadeIn = setInterval(() => {
+                    if (volume < 0.5) {   // volumen máximo (0.0 a 1.0)
+                        volume += 0.02;
+                        music.volume = volume;
+                    } else {
+                        clearInterval(fadeIn);
+                    }
+                }, 200);
+
+                musicStarted = true;
+            }
+        });
+    }
+
 });
     // --- ÁRBOL DE CORAZONES ---
     function createTreeLeaves() {
